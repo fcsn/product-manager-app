@@ -1,8 +1,12 @@
 import React from 'react';
 import ProductsList from './productsList';
 import { connect } from 'react-redux';
+import { fetchProducts } from './actions';
 
 class ProductsPage extends React.Component {
+  componentDidMount() {
+    this.props.fetchProducts();
+  }
   render() {
     return (
       <div>
@@ -20,4 +24,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(ProductsPage);
+export default connect(mapStateToProps, { fetchProducts })(ProductsPage);
