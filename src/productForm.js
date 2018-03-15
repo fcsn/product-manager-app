@@ -1,5 +1,7 @@
 import React from 'react';
+import { saveProduct } from './actions';
 import classnames from 'classnames';
+import { connect } from 'react-redux';
 
 class ProductForm extends React.Component {
     state = {
@@ -7,7 +9,8 @@ class ProductForm extends React.Component {
         detail: '',
         quantity: '',
         date: null,
-        errors: {}
+        errors: {},
+        loading: false
       }
 
       handleChange = (e) => {
@@ -32,12 +35,23 @@ class ProductForm extends React.Component {
         if (this.state.detail === '') errors.detail = "Can't be empty";
         if (this.state.quantity === '') errors.quantity = "Can't be empty";
         this.setState({ errors });
+        const isValid = Object.keys(errors).length === 0
+
+        if(isValid) {
+            const { subject, detail, quantity } = this.state;
+            this.props.saveProduct({ subject, detail, quantity }).then(
+                () => {},
+                (err) => err.response.json().then(({errors}) => this.setState({ errors, loading: false }))
+            );
+        }
       }
 
     render() {
         return(
-            <form className="ui form" onSubmit={this.handleSubmit}>
+            <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleSubmit}>
                 <h1>Add new product</h1>
+
+                {!!this.state.errors.global && <div className="ui negative message"><p>{this.state.errors.global}</p></div>}
 
                 <div className={classnames('field', { error: !!this.state.errors.subject})}>
                 <label htmlFor="subject">subject</label>
@@ -88,7 +102,7 @@ class ProductForm extends React.Component {
     }
 }
 
-export default ProductForm;
+export default connect(null, { saveProduct })(ProductForm);
 
 
 
