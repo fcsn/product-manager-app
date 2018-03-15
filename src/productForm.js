@@ -3,6 +3,8 @@ import { saveProduct } from './actions';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 
+import { Redirect } from 'react-router-dom';
+
 class ProductForm extends React.Component {
     state = {
         subject: '',
@@ -10,7 +12,8 @@ class ProductForm extends React.Component {
         quantity: '',
         date: null,
         errors: {},
-        loading: false
+        loading: false,
+        done: false
       }
 
       handleChange = (e) => {
@@ -40,14 +43,14 @@ class ProductForm extends React.Component {
         if(isValid) {
             const { subject, detail, quantity } = this.state;
             this.props.saveProduct({ subject, detail, quantity }).then(
-                () => {},
+                () => { this.setState({ done: true })},
                 (err) => err.response.json().then(({errors}) => this.setState({ errors, loading: false }))
             );
         }
       }
 
     render() {
-        return(
+        const form = (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleSubmit}>
                 <h1>Add new product</h1>
 
@@ -98,6 +101,11 @@ class ProductForm extends React.Component {
                 <button className="ui primary button">Save</button>
                 </div>
             </form>
+        )
+        return(
+            <div>
+                { this.state.done ? <Redirect to="/products" /> : form }
+            </div>
         );
     }
 }
