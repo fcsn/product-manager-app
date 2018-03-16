@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ModalDelete from './modalDelete';
 
-export default function ProductItem({ product }) {
+export default function ProductItem({ product, deleteProduct }) {
   return (
     <table className="ui compact table">
             <thead>
@@ -19,7 +20,11 @@ export default function ProductItem({ product }) {
                     <td>{product.detail}</td>
                     <td>{product.quantity}</td>
                     <td>
-                        delete
+                        <ModalDelete 
+                            product={product} 
+                            key={product._id}
+                            deleteProduct={deleteProduct}
+                        />
                     </td>
                 </tr>
             </tbody>

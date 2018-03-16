@@ -1,5 +1,6 @@
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const PRODUCT_DELECTED = 'PRODUCT_DELECTED';
 
 function handleResponse(response) {
     if(response.ok) {
@@ -25,6 +26,14 @@ export function addProduct(product) {
     }
 }
 
+export function productDeleted(productId) {
+    return {
+        type: PRODUCT_DELECTED,
+        productId
+    }
+}
+
+
 export function saveProduct(data) {
     return dispatch => {
       return fetch('/api/products', {
@@ -36,7 +45,19 @@ export function saveProduct(data) {
       }).then(handleResponse)
       .then(data => dispatch(addProduct(data.product)));
     }
-  }
+}
+  
+export function deleteProduct(id) {
+    return dispatch => {
+        return fetch(`/api/products/${id}`, {
+            method: 'delete',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(handleResponse)
+        .then(data => dispatch(productDeleted(id)));
+    }
+};
 
 export function fetchProducts() {
     return dispatch => {

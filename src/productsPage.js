@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductsList from './productsList';
 import { connect } from 'react-redux';
-import { fetchProducts } from './actions';
+import { fetchProducts, deleteProduct } from './actions';
 
 class ProductsPage extends React.Component {
   componentDidMount() {
@@ -12,7 +12,10 @@ class ProductsPage extends React.Component {
       <div>
         <h1>Products List</h1>
 
-        <ProductsList products={this.props.products} />
+        <ProductsList 
+          products={this.props.products} 
+          deleteProduct={this.props.deleteProduct} 
+        />
       </div>
     );
   }
@@ -24,4 +27,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchProducts })(ProductsPage);
+export default connect(mapStateToProps, { fetchProducts, deleteProduct })(ProductsPage);

@@ -25,6 +25,14 @@ mongodb.MongoClient.connect(dbUrl, function(err, db) {
         });
     });
 
+    app.delete('/api/products/:_id', (req, res) => {
+        db.collection('products').deleteOne({ _id: new mongodb.ObjectId(req.params._id)}, (err, r) => {
+            if(err) {res.status(500).json({ errors: {global: err}}); return; }
+
+            res.json({});
+        })
+    });
+    
     app.post('/api/products', (req, res) => {
         const { errors, isValid } = validate(req.body);
         if(isValid) {

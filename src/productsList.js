@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductItem from './productItem';
 
-export default function ProductsList({ products }) {
+export default function ProductsList({ products, deleteProduct }) {
   const emptyMessage = (
     <p>There are no products yet in your collection.</p>
   );
@@ -12,6 +12,7 @@ export default function ProductsList({ products }) {
           <ProductItem 
               product={product} 
               key={product._id}
+              deleteProduct={deleteProduct}
           />)}
         </div>
   );
