@@ -1,22 +1,80 @@
 import React from 'react';
-import { saveProduct } from './actions';
 import classnames from 'classnames';
-import { connect } from 'react-redux';
+import Modal from "react-responsive-modal";
 
-import { Redirect } from 'react-router-dom';
+const styles = {
+  fontFamily: "sans-serif",
+  textAlign: "center"
+};
+
+class ModalConfirm extends React.Component {
+  constructor(props) {
+      super(props);
+  this.state = {
+      open: false
+  };
+}
+
+    onOpenModal = () => {
+    this.setState({ open: true });
+    };
+
+    onCloseModal = () => {
+    this.setState({ open: false });
+    };
+
+    render() {
+        const { open } = this.state;
+        return (
+            <div style={styles}>
+                <button className="ui blue button" onClick={this.onOpenModal}>
+                    save
+                </button>
+                <Modal open={open} onClose={this.onCloseModal} little>
+                    <h1>WARINING</h1>
+                    <p>No empty space Please.</p>
+                    <button className="ui button" onClick={this.onCloseModal}>
+                        ok
+                    </button>
+                </Modal>
+            </div>
+        );
+    }
+}
 
 class ProductForm extends React.Component {
     state = {
-        subject: '',
-        detail: '',
-        quantity: '',
+        _id: this.props.product ? this.props.product._id : null,
+        subject: this.props.product ? this.props.product.subject : '',
+        detail: this.props.product ? this.props.product.detail : '',
+        quantity: this.props.product ? this.props.product.quantity : '',
         date: null,
         errors: {},
-        loading: false,
-        done: false
-      }
+        loading: false
+    }
 
-      handleChange = (e) => {
+    componentWillReceiveProps = (nextProps) => {
+        //create page
+        if(nextProps.product === null ) {
+            this.setState({
+                _id: '',
+                subject: '',
+                quantity: '',
+                detail: ''
+            });
+        //update page
+        } else {
+            this.setState({
+                _id: nextProps.product._id,
+                subject: nextProps.product.subject,
+                quantity: nextProps.product.quantity,
+                detail: nextProps.product.detail  
+            });
+        }
+        
+    }
+
+    handleChange = (e) => {
         if (!!this.state.errors[e.target.name]) {
           let errors = Object.assign({}, this.state.errors);
           delete errors[e.target.name];
@@ -27,9 +85,9 @@ class ProductForm extends React.Component {
         } else {
           this.setState({ [e.target.name]: e.target.value });
         }
-      }
+    }
     
-      handleSubmit = (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
     
         // validation
@@ -41,13 +99,12 @@ class ProductForm extends React.Component {
         const isValid = Object.keys(errors).length === 0
 
         if(isValid) {
-            const { subject, detail, quantity } = this.state;
-            this.props.saveProduct({ subject, detail, quantity }).then(
-                () => { this.setState({ done: true })},
-                (err) => err.response.json().then(({errors}) => this.setState({ errors, loading: false }))
-            );
+            const { _id, subject, detail, quantity } = this.state;
+            this.setState({ loading: true });
+            this.props.saveProduct({ _id, subject, detail, quantity })
+            .catch((err) => err.response.json().then(({errors}) => this.setState({ errors, loading: false })));
         }
-      }
+    }
 
     render() {
         const form = (
@@ -98,20 +155,16 @@ class ProductForm extends React.Component {
                 </div>
 
                 <div className="field">
-                <button className="ui primary button">Save</button>
+                    <ModalConfirm/>
                 </div>
             </form>
         )
         return(
             <div>
-                { this.state.done ? <Redirect to="/products" /> : form }
+                { form }
             </div>
         );
     }
 }
 
-export default connect(null, { saveProduct })(ProductForm);
-
-
-
-
+export default ProductForm;

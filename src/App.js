@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProductsPage from './productsPage';
+import ProductFormPage from './productFormPage';
 import './App.css';
 import ProductForm from './productForm';
 
@@ -9,13 +10,13 @@ class App extends Component {
   render() {
     return (
       <div className="ui container">
-        <div className="ui three item menu">
-          <Link className="item" to="/">Home</Link>
-          <Link className="item" to="/products">Products</Link>
+        <div className="ui two item menu">
+          <Link className="item" to="/">Products</Link>
           <Link className="item" to="/products/new">Add new Products</Link>
         </div>        
-        <Route exact path="/products" component={ProductsPage}/>
-        <Route path="/products/new" component={ProductForm}/>
+        <Route exact path="/" component={ProductsPage}/>
+        <Route path="/products/new" component={ProductFormPage}/>
+        <Route path="/product/:_id" component={ProductFormPage}/>
     </div>
     );
   }

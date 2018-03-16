@@ -16,7 +16,7 @@ export default function ProductItem({ product, deleteProduct }) {
             
             <tbody>
                 <tr>
-                    <td>{product.subject}</td>
+                    <td><Link to={`/product/${product._id}`}>{product.subject}</Link></td>
                     <td>{product.detail}</td>
                     <td>{product.quantity}</td>
                     <td>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from "react-responsive-modal";
-import { render } from "react-dom";
 import { deleteProduct } from './actions';
 import { Redirect } from 'react-router-dom';
 
