@@ -1,4 +1,5 @@
 export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const ADD_PRODUCT = 'ADD_PRODUCT';
 
 function handleResponse(response) {
     if(response.ok) {
@@ -17,6 +18,13 @@ export function setProducts(products) {
     }
 }
 
+export function addProduct(product) {
+    return {
+        type: ADD_PRODUCT,
+        product
+    }
+}
+
 export function saveProduct(data) {
     return dispatch => {
       return fetch('/api/products', {
@@ -25,7 +33,8 @@ export function saveProduct(data) {
         headers: {
           "Content-Type": "application/json"
         }
-      }).then(handleResponse);
+      }).then(handleResponse)
+      .then(data => dispatch(addProduct(data.product)));
     }
   }
 

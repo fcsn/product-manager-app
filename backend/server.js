@@ -20,9 +20,9 @@ mongodb.MongoClient.connect(dbUrl, function(err, db) {
     if(err) { console.log(err); return }
 
     app.get('/api/products', (req, res) => {
-    db.collection('products').find({}).toArray((err, products) => {
-        res.json({ products });
-    });
+        db.collection('products').find({}).toArray((err, products) => {
+            res.json({ products });
+        });
     });
 
     app.post('/api/products', (req, res) => {

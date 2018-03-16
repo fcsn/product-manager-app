@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductItem from './productItem';
 
 export default function ProductsList({ products }) {
   const emptyMessage = (
@@ -6,7 +7,13 @@ export default function ProductsList({ products }) {
   );
 
   const productsList = (
-    <p>products list</p>
+        <div>
+          { products.map(product => 
+          <ProductItem 
+              product={product} 
+              key={product._id}
+          />)}
+        </div>
   );
 
   return (
