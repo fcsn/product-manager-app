@@ -70,8 +70,7 @@ class ProductForm extends React.Component {
                 quantity: nextProps.product.quantity,
                 detail: nextProps.product.detail  
             });
-        }
-        
+        }        
     }
 
     handleChange = (e) => {
