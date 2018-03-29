@@ -10,4 +10,4 @@
 
 - semantic ui
 
-![Output sample](https://goo.gl/Fr9VvV)
+![screencast](productmanager.gif)
