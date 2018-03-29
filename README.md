@@ -10,7 +10,7 @@
 - redux-devtool
 - semantic ui
 
-![screencast](./gif/screencast.gif)
+![screencast](./gif/productmanager.gif)
 
 ## Quick Start
 #### Run React App (Frontend)
