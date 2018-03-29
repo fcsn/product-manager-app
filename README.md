@@ -9,3 +9,5 @@
 - redux-devtool
 
 - semantic ui
+
+![Output sample](https://goo.gl/Fr9VvV)
