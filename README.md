@@ -10,6 +10,10 @@
 - redux-devtool
 - semantic ui
 
+#### product manager app
+
+This App allows users to add, delete and update their products. Of course users can see all products that they added.
+
 ![screencast](./gif/productmanager.gif)
 
 ## Quick Start
